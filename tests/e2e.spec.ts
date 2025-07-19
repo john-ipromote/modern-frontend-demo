@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Modern Frontend Demo', () => {
   test('should navigate to libraries page and show NextJS hover content', async ({ page }) => {
     // Step 1: Open the index page
-    await page.goto('http://localhost:3000')
+    await page.goto('/')
     
     // Verify we're on the index page
     await expect(page).toHaveTitle('Modern Frontend Demo')
@@ -28,7 +28,7 @@ test.describe('Modern Frontend Demo', () => {
   })
 
   test('should toggle dark mode', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('/')
     
     // Click the dark mode toggle
     await page.getByRole('button', { name: 'Toggle dark mode' }).click()
@@ -38,23 +38,23 @@ test.describe('Modern Frontend Demo', () => {
   })
 
   test('should have working navigation', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('/')
     
     // Test navigation to Libraries page
     await page.getByRole('link', { name: 'Libraries', exact: true }).click()
-    await expect(page).toHaveURL('http://localhost:3000/libraries')
+    await expect(page).toHaveURL('/libraries/')
     
     // Test navigation to Build & Test page
     await page.getByRole('link', { name: 'Build & Test' }).click()
-    await expect(page).toHaveURL('http://localhost:3000/build-test')
+    await expect(page).toHaveURL('/build-test/')
     
     // Test navigation back to Home
     await page.getByRole('link', { name: 'Home' }).click()
-    await expect(page).toHaveURL('http://localhost:3000/')
+    await expect(page).toHaveURL('/')
   })
 
   test('should have GitHub link on homepage', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto('/')
     
     // Verify GitHub link exists and has correct URL
     const githubLink = page.getByRole('link', { name: 'View Source Code' })
