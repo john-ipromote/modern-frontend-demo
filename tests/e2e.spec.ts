@@ -42,11 +42,11 @@ test.describe('Modern Frontend Demo', () => {
     
     // Test navigation to Libraries page
     await page.getByRole('link', { name: 'Libraries', exact: true }).click()
-    await expect(page).toHaveURL('/libraries')
+    await expect(page).toHaveURL('/libraries/')
     
     // Test navigation to Build & Test page
     await page.getByRole('link', { name: 'Build & Test' }).click()
-    await expect(page).toHaveURL('/build-test')
+    await expect(page).toHaveURL('/build-test/')
     
     // Test navigation back to Home
     await page.getByRole('link', { name: 'Home' }).click()
