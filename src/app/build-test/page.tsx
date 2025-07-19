@@ -1,0 +1,181 @@
+export default function BuildTestPage() {
+  const tools = [
+    {
+      category: "Build Tools",
+      items: [
+        {
+          name: "Bun",
+          description: "Ultra-fast JavaScript runtime and package manager used for building and running the application.",
+          features: ["Lightning-fast installs", "Built-in bundler", "TypeScript support", "Drop-in Node.js replacement"]
+        },
+        {
+          name: "Next.js Build System",
+          description: "Production-ready build pipeline with automatic optimization and code splitting.",
+          features: ["Static site generation", "Server-side rendering", "Automatic code splitting", "Image optimization"]
+        }
+      ]
+    },
+    {
+      category: "Testing Frameworks",
+      items: [
+        {
+          name: "Jest",
+          description: "Popular JavaScript testing framework for unit and integration tests.",
+          features: ["Zero configuration", "Snapshot testing", "Mocking capabilities", "Coverage reports"]
+        },
+        {
+          name: "Playwright",
+          description: "Modern end-to-end testing framework for web applications.",
+          features: ["Cross-browser testing", "Auto-waiting", "Network interception", "Mobile emulation"]
+        }
+      ]
+    },
+    {
+      category: "CI/CD Pipeline",
+      items: [
+        {
+          name: "GitHub Actions",
+          description: "Automated workflows for building, testing, and deploying the application.",
+          features: ["Matrix builds", "Secrets management", "Marketplace actions", "Event-driven workflows"]
+        },
+        {
+          name: "GitHub Pages",
+          description: "Static site hosting directly from GitHub repository.",
+          features: ["Free hosting", "Custom domains", "HTTPS by default", "Automatic deployments"]
+        }
+      ]
+    }
+  ]
+
+  return (
+    <div className="max-w-6xl mx-auto">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          Build & Test Infrastructure
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300">
+          Comprehensive tooling for modern development workflows
+        </p>
+      </div>
+
+      <div className="space-y-12">
+        {tools.map((section) => (
+          <div key={section.category}>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+              {section.category}
+            </h2>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {section.items.map((tool) => (
+                <div
+                  key={tool.name}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300"
+                >
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    {tool.name}
+                  </h3>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                    {tool.description}
+                  </p>
+                  
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      Key Features
+                    </h4>
+                    <ul className="space-y-2">
+                      {tool.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          <span className="text-gray-600 dark:text-gray-400">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg p-8">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Development Workflow
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="text-center">
+            <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              1
+            </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Code</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Develop with TypeScript, React, and Tailwind CSS
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              2
+            </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Test</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Run unit tests with Jest and E2E tests with Playwright
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-yellow-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              3
+            </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Build</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Compile and optimize with Bun and Next.js
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              4
+            </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Deploy</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Automatic deployment to GitHub Pages via Actions
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 text-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            Integration Test Example
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">
+            Our Playwright integration test demonstrates the complete user flow:
+          </p>
+          <div className="flex flex-wrap justify-center gap-2 text-sm">
+            <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full">
+              Open Index Page
+            </span>
+            <span className="text-gray-400">→</span>
+            <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full">
+              Navigate to Libraries
+            </span>
+            <span className="text-gray-400">→</span>
+            <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full">
+              Hover over Next.js
+            </span>
+            <span className="text-gray-400">→</span>
+            <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full">
+              Verify Hover Text
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
