@@ -3,6 +3,9 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ main, 'copilot/**' ]
+  pull_request:
+    types: [closed]
+    branches: [ main ]
 
 jobs:
   test:
@@ -120,3 +123,38 @@ jobs:
         publish_dir: ./out
         destination_dir: ${{ env.BRANCH_NAME }}
         keep_files: true
+
+  cleanup-feature:
+    runs-on: ubuntu-latest
+    # Only run when PRs from copilot/* branches are closed
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && startsWith(github.head_ref, 'copilot/')
+    
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Extract branch name from head ref
+      shell: bash
+      run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+    
+    - name: Remove feature branch deployment
+      shell: bash
+      run: |
+        if [ -d "${{ env.BRANCH_NAME }}" ]; then
+          echo "Removing deployment for branch: ${{ env.BRANCH_NAME }}"
+          rm -rf "${{ env.BRANCH_NAME }}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Remove deployment for ${{ env.BRANCH_NAME }}" || echo "Nothing to commit"
+          git push origin gh-pages
+        else
+          echo "No deployment found for branch: ${{ env.BRANCH_NAME }}"
+        fi

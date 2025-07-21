@@ -17,10 +17,12 @@ The project now supports automatic deployments of `copilot/*` branches to GitHub
 
 **After:**
 - Triggers on pushes to `main` and `copilot/**` branches
+- Triggers on closed pull requests to `main` branch
 - Tests run **only** on `main` branch pushes
-- Two deployment jobs:
+- Three deployment jobs:
   - `deploy-main`: Deploys main branch to root GitHub Pages
   - `deploy-feature`: Deploys copilot/* branches to subdirectories
+  - `cleanup-feature`: Removes feature deployments when PRs are closed/merged
 
 ### 2. Next.js Configuration (next.config.ts)
 
@@ -46,6 +48,14 @@ Example: `copilot/fix-13` branch → `https://john-ipromote.github.io/modern-fro
 4. Build with custom basePath: `/modern-frontend-demo/{branch-name}`
 5. Deploy to GitHub Pages subdirectory using `peaceiris/actions-gh-pages`
 
+### Feature Branch Cleanup Process
+
+1. Close or merge a pull request from a `copilot/*` branch
+2. GitHub Actions cleanup workflow triggered
+3. Checkout the `gh-pages` branch
+4. Remove the corresponding feature branch directory
+5. Commit and push the cleanup to `gh-pages`
+
 ### Environment Variables
 
 - `GITHUB_ACTIONS`: Indicates CI environment
@@ -62,6 +72,7 @@ All functionality has been verified:
 ✅ Workflow triggers correctly on copilot branches  
 ✅ Tests only run on main branch  
 ✅ Feature deployment job exists
+✅ Cleanup job removes deployments on PR close/merge
 
 ## Benefits
 
@@ -69,6 +80,7 @@ All functionality has been verified:
 2. **No Test Overhead**: Feature branches skip test execution for faster deploys
 3. **Parallel Development**: Multiple feature branches can be deployed simultaneously
 4. **Main Branch Stability**: Full test suite still runs on main branch
+5. **Automatic Cleanup**: Feature deployments are automatically removed when PRs are closed or merged
 
 ## Usage
 
@@ -76,3 +88,8 @@ To deploy a feature branch:
 1. Create a branch with `copilot/` prefix (e.g., `copilot/new-feature`)
 2. Push commits to the branch
 3. Deployment will be available at `https://john-ipromote.github.io/modern-frontend-demo/copilot/new-feature/`
+
+To clean up a feature deployment:
+1. Open a pull request from your `copilot/*` branch to `main`
+2. Close or merge the pull request
+3. The feature deployment will be automatically removed from GitHub Pages
