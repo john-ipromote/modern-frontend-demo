@@ -61,4 +61,28 @@ test.describe('Modern Frontend Demo', () => {
     await expect(githubLink).toBeVisible()
     await expect(githubLink).toHaveAttribute('href', 'https://github.com/john-ipromote/modern-frontend-demo')
   })
+
+  test('should show hover effects on Build & Test page', async ({ page }) => {
+    await page.goto('/build-test/')
+    
+    // Verify we're on the Build & Test page
+    await expect(page.getByRole('heading', { name: 'Build & Test Infrastructure' })).toBeVisible()
+    
+    // Find the Bun card and verify base content is visible
+    const bunCard = page.getByText('BunUltra-fast JavaScript runtime')
+    await expect(bunCard).toBeVisible()
+    
+    // Hover over the Bun card
+    await bunCard.hover()
+    
+    // Verify the hover content (long description) is visible
+    await expect(page.getByText('Bun is designed as a drop-in replacement for Node.js with significantly faster startup times')).toBeVisible()
+    
+    // Test another card - Jest
+    const jestCard = page.getByText('JestPopular JavaScript testing framework')
+    await jestCard.hover()
+    
+    // Verify Jest hover content
+    await expect(page.getByText('Jest provides a comprehensive testing solution with zero configuration required')).toBeVisible()
+  })
 })
