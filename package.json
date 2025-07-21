@@ -12,6 +12,9 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
+    "@swc/core": "^1.13.1",
+    "@swc/core-linux-x64-gnu": "^1.13.1",
+    "@swc/helpers": "^0.5.17",
     "next": "15.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
