@@ -30,11 +30,20 @@ test.describe('Modern Frontend Demo', () => {
   test('should toggle dark mode', async ({ page }) => {
     await page.goto('/')
     
+    // Verify initial light mode state
+    await expect(page.locator('html')).not.toHaveClass(/dark/)
+    
     // Click the dark mode toggle
     await page.getByRole('button', { name: 'Toggle dark mode' }).click()
     
     // Verify dark mode is applied (check for dark class on html element)
     await expect(page.locator('html')).toHaveClass(/dark/)
+    
+    // Toggle back to light mode
+    await page.getByRole('button', { name: 'Toggle dark mode' }).click()
+    
+    // Verify we're back to light mode
+    await expect(page.locator('html')).not.toHaveClass(/dark/)
   })
 
   test('should have working navigation', async ({ page }) => {
