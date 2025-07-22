@@ -39,24 +39,6 @@ const libraries: Library[] = [
     shortDescription: "An open-source set of prebuilt UI components based on Tailwind CSS framework.",
     longDescription: "Relix UI provides a comprehensive collection of accessible, customizable components that work seamlessly with Tailwind CSS. It focuses on developer experience with TypeScript support and follows modern design principles. The components are production-ready and optimized for performance.",
     url: "https://www.npmjs.com/package/tw-relix"
-  },
-  {
-    name: "Bun",
-    shortDescription: "A fast all-in-one JavaScript runtime, bundler, test runner, and package manager.",
-    longDescription: "Bun is designed as a drop-in replacement for Node.js with significantly faster startup times and better performance. It includes a built-in bundler, transpiler, test runner, and package manager, reducing the need for multiple tools. Bun is written in Zig and optimized for speed across all operations.",
-    url: "https://bun.sh"
-  },
-  {
-    name: "Playwright",
-    shortDescription: "A framework for Web Testing and Automation that works across all modern browsers.",
-    longDescription: "Playwright enables reliable end-to-end testing for modern web apps with support for multiple browsers including Chrome, Firefox, and Safari. It provides powerful testing capabilities like auto-waiting, network interception, and mobile emulation. The framework offers excellent debugging tools and can run tests in parallel for faster execution.",
-    url: "https://playwright.dev"
-  },
-  {
-    name: "GitHub Actions",
-    shortDescription: "CI/CD platform that automates your build, test, and deployment pipeline directly from GitHub.",
-    longDescription: "GitHub Actions integrates seamlessly with your repository to provide continuous integration and deployment workflows. It supports matrix builds, secrets management, and a vast marketplace of pre-built actions. The platform can automatically trigger workflows based on repository events like pushes, pull requests, or scheduled intervals.",
-    url: "https://github.com/features/actions"
   }
 ]
 
