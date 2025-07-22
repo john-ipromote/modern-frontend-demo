@@ -94,4 +94,42 @@ test.describe('Modern Frontend Demo', () => {
     // Verify Jest hover content
     await expect(page.getByText('Jest provides a comprehensive testing solution with zero configuration required')).toBeVisible()
   })
+
+  test('should have external links on Build & Test cards', async ({ page }) => {
+    await page.goto('/build-test/')
+    
+    // Check that external links exist for each tool
+    const bunLink = page.locator('div').filter({ hasText: /^Bun$/ }).getByRole('link')
+    await expect(bunLink).toHaveAttribute('href', 'https://bun.sh')
+    
+    const jestLink = page.locator('div').filter({ hasText: /^Jest$/ }).getByRole('link')
+    await expect(jestLink).toHaveAttribute('href', 'https://jestjs.io')
+    
+    const playwrightLink = page.locator('div').filter({ hasText: /^Playwright$/ }).getByRole('link')
+    await expect(playwrightLink).toHaveAttribute('href', 'https://playwright.dev')
+    
+    const githubActionsLink = page.locator('div').filter({ hasText: /^GitHub Actions$/ }).getByRole('link')
+    await expect(githubActionsLink).toHaveAttribute('href', 'https://github.com/features/actions')
+    
+    const githubPagesLink = page.locator('div').filter({ hasText: /^GitHub Pages$/ }).getByRole('link')
+    await expect(githubPagesLink).toHaveAttribute('href', 'https://pages.github.com')
+  })
+
+  test('should have smaller library cards in 3-column layout', async ({ page }) => {
+    await page.goto('/libraries/')
+    
+    // Verify we're on the libraries page
+    await expect(page.getByRole('heading', { name: 'Libraries & Technologies' })).toBeVisible()
+    
+    // Check that all library cards are present
+    await expect(page.getByRole('heading', { name: 'Next.js' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'React' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'TypeScript' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Tailwind CSS' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Relix UI' })).toBeVisible()
+    
+    // Verify external links are present
+    const nextjsLink = page.locator('div').filter({ hasText: /^Next\.js$/ }).getByRole('link')
+    await expect(nextjsLink).toHaveAttribute('href', 'https://nextjs.org')
+  })
 })

@@ -56,11 +56,11 @@ export default function LibrariesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {libraries.map((library) => (
           <div
             key={library.name}
-            className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 cursor-pointer transition-all duration-300 ease-in-out transform ${
+            className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 cursor-pointer transition-all duration-300 ease-in-out transform ${
               hoveredCard === library.name 
                 ? 'scale-105 shadow-2xl ring-2 ring-blue-500 dark:ring-blue-400' 
                 : 'hover:shadow-xl'
@@ -68,8 +68,8 @@ export default function LibrariesPage() {
             onMouseEnter={() => setHoveredCard(library.name)}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="flex items-start justify-between mb-3">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                 {library.name}
               </h3>
               <a
@@ -79,26 +79,26 @@ export default function LibrariesPage() {
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
             </div>
             
             <div className={`transition-all duration-300 ease-in-out ${
-              hoveredCard === library.name ? 'min-h-[180px]' : 'min-h-[100px]'
+              hoveredCard === library.name ? 'min-h-[140px]' : 'min-h-[80px]'
             }`}>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3 text-sm">
                 {library.shortDescription}
               </p>
               
               <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
                 hoveredCard === library.name 
-                  ? 'max-h-40 opacity-100' 
+                  ? 'max-h-32 opacity-100' 
                   : 'max-h-0 opacity-0'
               }`}>
-                <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                  <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
                     {library.longDescription}
                   </p>
                 </div>

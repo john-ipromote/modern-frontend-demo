@@ -13,13 +13,15 @@ export default function BuildTestPage() {
           name: "Bun",
           description: "Ultra-fast JavaScript runtime and package manager used for building and running the application.",
           longDescription: "Bun is designed as a drop-in replacement for Node.js with significantly faster startup times and better performance. It includes a built-in bundler, transpiler, test runner, and package manager, reducing the need for multiple tools.",
-          features: ["Lightning-fast installs", "Built-in bundler", "TypeScript support", "Drop-in Node.js replacement"]
+          features: ["Lightning-fast installs", "Built-in bundler", "TypeScript support", "Drop-in Node.js replacement"],
+          url: "https://bun.sh"
         },
         {
           name: "Next.js Build System",
           description: "Production-ready build pipeline with automatic optimization and code splitting.",
           longDescription: "Next.js provides a comprehensive build system that handles everything from compilation to optimization. It automatically splits code, optimizes images, and generates static or server-rendered pages based on your needs.",
-          features: ["Static site generation", "Server-side rendering", "Automatic code splitting", "Image optimization"]
+          features: ["Static site generation", "Server-side rendering", "Automatic code splitting", "Image optimization"],
+          url: "https://nextjs.org"
         }
       ]
     },
@@ -30,13 +32,15 @@ export default function BuildTestPage() {
           name: "Jest",
           description: "Popular JavaScript testing framework for unit and integration tests.",
           longDescription: "Jest provides a comprehensive testing solution with zero configuration required. It includes built-in assertion libraries, mocking capabilities, and coverage reporting, making it ideal for both unit and integration testing.",
-          features: ["Zero configuration", "Snapshot testing", "Mocking capabilities", "Coverage reports"]
+          features: ["Zero configuration", "Snapshot testing", "Mocking capabilities", "Coverage reports"],
+          url: "https://jestjs.io"
         },
         {
           name: "Playwright",
           description: "Modern end-to-end testing framework for web applications.",
           longDescription: "Playwright enables reliable end-to-end testing across all modern browsers including Chrome, Firefox, and Safari. It provides powerful testing capabilities with auto-waiting, network interception, and comprehensive debugging tools.",
-          features: ["Cross-browser testing", "Auto-waiting", "Network interception", "Mobile emulation"]
+          features: ["Cross-browser testing", "Auto-waiting", "Network interception", "Mobile emulation"],
+          url: "https://playwright.dev"
         }
       ]
     },
@@ -47,13 +51,15 @@ export default function BuildTestPage() {
           name: "GitHub Actions",
           description: "Automated workflows for building, testing, and deploying the application.",
           longDescription: "GitHub Actions integrates seamlessly with your repository to provide continuous integration and deployment workflows. It supports matrix builds, secrets management, and a vast marketplace of pre-built actions for comprehensive automation.",
-          features: ["Matrix builds", "Secrets management", "Marketplace actions", "Event-driven workflows"]
+          features: ["Matrix builds", "Secrets management", "Marketplace actions", "Event-driven workflows"],
+          url: "https://github.com/features/actions"
         },
         {
           name: "GitHub Pages",
           description: "Static site hosting directly from GitHub repository.",
           longDescription: "GitHub Pages provides free hosting for static websites directly from your GitHub repository. It offers custom domain support, HTTPS by default, and seamless integration with GitHub Actions for automatic deployments.",
-          features: ["Free hosting", "Custom domains", "HTTPS by default", "Automatic deployments"]
+          features: ["Free hosting", "Custom domains", "HTTPS by default", "Automatic deployments"],
+          url: "https://pages.github.com"
         }
       ]
     }
@@ -89,9 +95,22 @@ export default function BuildTestPage() {
                   onMouseEnter={() => setHoveredCard(tool.name)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                    {tool.name}
-                  </h3>
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                      {tool.name}
+                    </h3>
+                    <a
+                      href={tool.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  </div>
                   
                   <div className={`transition-all duration-300 ease-in-out ${
                     hoveredCard === tool.name ? 'min-h-[200px]' : 'min-h-[120px]'
@@ -113,20 +132,28 @@ export default function BuildTestPage() {
                     </div>
                   </div>
                   
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                      Key Features
-                    </h4>
-                    <ul className="space-y-2">
-                      {tool.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          <span className="text-gray-600 dark:text-gray-400">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                    hoveredCard === tool.name 
+                      ? 'max-h-96 opacity-100' 
+                      : 'max-h-0 opacity-0'
+                  }`}>
+                    {hoveredCard === tool.name && (
+                      <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                          Key Features
+                        </h4>
+                        <ul className="space-y-2">
+                          {tool.features.map((feature, index) => (
+                            <li key={index} className="flex items-start">
+                              <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span className="text-gray-600 dark:text-gray-400">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
