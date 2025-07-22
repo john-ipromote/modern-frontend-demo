@@ -2,13 +2,16 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'copilot/**' ]
   pull_request:
+    types: [closed]
     branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    # Only run tests on main branch pushes
+    if: github.ref == 'refs/heads/main'
     
     steps:
     - uses: actions/checkout@v4
@@ -40,7 +43,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
-  deploy:
+  deploy-main:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -82,3 +85,76 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
+
+  deploy-feature:
+    runs-on: ubuntu-latest
+    # Only run on copilot/* branch pushes
+    if: startsWith(github.ref, 'refs/heads/copilot/')
+    
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Install dependencies
+      run: bun install
+    
+    - name: Extract branch name
+      shell: bash
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+    
+    - name: Build application with feature branch basePath
+      env:
+        NEXT_PUBLIC_BASE_PATH: /modern-frontend-demo/${{ env.BRANCH_NAME }}
+      run: bun run build
+    
+    - name: Deploy to GitHub Pages (feature branch)
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out
+        destination_dir: ${{ env.BRANCH_NAME }}
+        keep_files: true
+
+  cleanup-feature:
+    runs-on: ubuntu-latest
+    # Only run when PRs from copilot/* branches are closed
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && startsWith(github.head_ref, 'copilot/')
+    
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Extract branch name from head ref
+      shell: bash
+      run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+    
+    - name: Remove feature branch deployment
+      shell: bash
+      run: |
+        if [ -d "${{ env.BRANCH_NAME }}" ]; then
+          echo "Removing deployment for branch: ${{ env.BRANCH_NAME }}"
+          rm -rf "${{ env.BRANCH_NAME }}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Remove deployment for ${{ env.BRANCH_NAME }}" || echo "Nothing to commit"
+          git push origin gh-pages
+        else
+          echo "No deployment found for branch: ${{ env.BRANCH_NAME }}"
+        fi
