@@ -2,86 +2,76 @@
 
 import Link from 'next/link'
 import { useTheme } from '@/contexts/ThemeContext'
+import { Box, Container, Flex, Text, IconButton } from '@radix-ui/themes'
+import { SunIcon, MoonIcon } from '@radix-ui/react-icons'
 
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center space-x-8">
-            <Link 
-              href="/" 
-              className="text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Modern Frontend Demo
-            </Link>
-            <div className="hidden md:flex space-x-6">
+    <Box asChild>
+      <nav style={{ borderBottom: '1px solid var(--gray-6)' }}>
+        <Container size="4">
+          <Flex justify="between" align="center" py="4">
+            <Flex align="center" gap="6">
               <Link 
                 href="/" 
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                style={{ textDecoration: 'none' }}
               >
-                Home
+                <Text size="5" weight="bold" color="gray" className="hover:color-blue transition-colors">
+                  Modern Frontend Demo
+                </Text>
               </Link>
-              <Link 
-                href="/libraries" 
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Libraries
-              </Link>
-              <Link 
-                href="/build-test" 
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Build & Test
-              </Link>
-            </div>
-          </div>
-          
-          <div className="flex items-center">
-            <button
+              <Flex gap="4" className="hidden md:flex">
+                <Link href="/" style={{ textDecoration: 'none' }}>
+                  <Text size="3" color="gray" className="hover:color-blue transition-colors px-3 py-2">
+                    Home
+                  </Text>
+                </Link>
+                <Link href="/libraries" style={{ textDecoration: 'none' }}>
+                  <Text size="3" color="gray" className="hover:color-blue transition-colors px-3 py-2">
+                    Libraries
+                  </Text>
+                </Link>
+                <Link href="/build-test" style={{ textDecoration: 'none' }}>
+                  <Text size="3" color="gray" className="hover:color-blue transition-colors px-3 py-2">
+                    Build & Test
+                  </Text>
+                </Link>
+              </Flex>
+            </Flex>
+            
+            <IconButton
+              variant="ghost"
               onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Toggle dark mode"
             >
-              {theme === 'light' ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Mobile menu */}
-      <div className="md:hidden">
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 dark:bg-gray-800">
-          <Link 
-            href="/" 
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          >
-            Home
-          </Link>
-          <Link 
-            href="/libraries" 
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          >
-            Libraries
-          </Link>
-          <Link 
-            href="/build-test" 
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium transition-colors"
-          >
-            Build & Test
-          </Link>
-        </div>
-      </div>
-    </nav>
+              {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+            </IconButton>
+          </Flex>
+          
+          {/* Mobile menu */}
+          <Box className="md:hidden">
+            <Flex direction="column" gap="2" pb="3" style={{ borderTop: '1px solid var(--gray-6)' }} pt="3">
+              <Link href="/" style={{ textDecoration: 'none' }}>
+                <Text size="3" color="gray" className="hover:color-blue block px-3 py-2">
+                  Home
+                </Text>
+              </Link>
+              <Link href="/libraries" style={{ textDecoration: 'none' }}>
+                <Text size="3" color="gray" className="hover:color-blue block px-3 py-2">
+                  Libraries
+                </Text>
+              </Link>
+              <Link href="/build-test" style={{ textDecoration: 'none' }}>
+                <Text size="3" color="gray" className="hover:color-blue block px-3 py-2">
+                  Build & Test
+                </Text>
+              </Link>
+            </Flex>
+          </Box>
+        </Container>
+      </nav>
+    </Box>
   )
 }

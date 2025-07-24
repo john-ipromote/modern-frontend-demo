@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { Box, Container, Flex, Text, Heading, Card } from '@radix-ui/themes'
+import { ExternalLinkIcon } from '@radix-ui/react-icons'
 
 interface Library {
   name: string
@@ -35,10 +37,10 @@ const libraries: Library[] = [
     url: "https://tailwindcss.com"
   },
   {
-    name: "Relix UI",
-    shortDescription: "An open-source set of prebuilt UI components based on Tailwind CSS framework.",
-    longDescription: "Relix UI provides a comprehensive collection of accessible, customizable components that work seamlessly with Tailwind CSS. It focuses on developer experience with TypeScript support and follows modern design principles. The components are production-ready and optimized for performance.",
-    url: "https://www.npmjs.com/package/tw-relix"
+    name: "Radix Themes",
+    shortDescription: "A modern theming system and component library built on top of Radix Primitives.",
+    longDescription: "Radix Themes provides a complete design system with semantic color scales, responsive design tokens, and accessible components out of the box. It includes built-in dark mode support and integrates seamlessly with Tailwind CSS. The system is highly customizable while maintaining excellent accessibility standards.",
+    url: "https://www.radix-ui.com/themes"
   }
 ]
 
@@ -46,73 +48,78 @@ export default function LibrariesPage() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+    <Container size="4">
+      <Box className="text-center mb-12">
+        <Heading size="8" mb="6">
           Libraries & Technologies
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300">
+        </Heading>
+        <Text size="5" color="gray">
           Explore the modern technologies powering this demo application
-        </p>
-      </div>
+        </Text>
+      </Box>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <Flex gap="4" direction="column" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {libraries.map((library) => (
-          <div
+          <Card
             key={library.name}
-            className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 cursor-pointer transition-all duration-300 ease-in-out transform ${
-              hoveredCard === library.name 
-                ? 'scale-105 shadow-2xl ring-2 ring-blue-500 dark:ring-blue-400' 
-                : 'hover:shadow-xl'
-            }`}
+            size="2"
+            style={{
+              cursor: 'pointer',
+              transition: 'all 0.3s ease-in-out',
+              transform: hoveredCard === library.name ? 'scale(1.02)' : 'scale(1)',
+            }}
             onMouseEnter={() => setHoveredCard(library.name)}
             onMouseLeave={() => setHoveredCard(null)}
           >
-            <div className="flex items-start justify-between mb-3">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+            <Flex justify="between" align="start" mb="3">
+              <Heading size="5">
                 {library.name}
-              </h3>
+              </Heading>
               <a
                 href={library.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                 onClick={(e) => e.stopPropagation()}
+                style={{ color: 'var(--accent-9)' }}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                <ExternalLinkIcon />
               </a>
-            </div>
+            </Flex>
             
-            <div className={`transition-all duration-300 ease-in-out ${
-              hoveredCard === library.name ? 'min-h-[140px]' : 'min-h-[80px]'
-            }`}>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3 text-sm">
+            <Box
+              style={{
+                transition: 'all 0.3s ease-in-out',
+                minHeight: hoveredCard === library.name ? '140px' : '80px'
+              }}
+            >
+              <Text color="gray" size="2" mb="3" style={{ lineHeight: '1.5' }}>
                 {library.shortDescription}
-              </p>
+              </Text>
               
-              <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                hoveredCard === library.name 
-                  ? 'max-h-32 opacity-100' 
-                  : 'max-h-0 opacity-0'
-              }`}>
-                <div className="border-t border-gray-200 dark:border-gray-600 pt-3">
-                  <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">
+              <Box
+                style={{
+                  transition: 'all 0.3s ease-in-out',
+                  overflow: 'hidden',
+                  maxHeight: hoveredCard === library.name ? '128px' : '0',
+                  opacity: hoveredCard === library.name ? 1 : 0
+                }}
+              >
+                <Box style={{ borderTop: '1px solid var(--gray-6)', paddingTop: '12px' }}>
+                  <Text color="gray" size="1" style={{ lineHeight: '1.5' }}>
                     {library.longDescription}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+                  </Text>
+                </Box>
+              </Box>
+            </Box>
+          </Card>
         ))}
-      </div>
+      </Flex>
 
-      <div className="mt-12 text-center">
-        <p className="text-gray-600 dark:text-gray-400">
+      <Box className="mt-12 text-center">
+        <Text color="gray">
           Hover over each card to see detailed descriptions and explore the technologies in action.
-        </p>
-      </div>
-    </div>
+        </Text>
+      </Box>
+    </Container>
   )
 }

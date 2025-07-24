@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { Box, Container, Flex, Text, Heading, Card, Badge } from '@radix-ui/themes'
+import { ExternalLinkIcon, CheckIcon } from '@radix-ui/react-icons'
 
 export default function BuildTestPage() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
@@ -66,183 +68,237 @@ export default function BuildTestPage() {
   ]
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+    <Container size="4">
+      <Box className="text-center mb-12">
+        <Heading size="8" mb="6">
           Build & Test Infrastructure
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300">
+        </Heading>
+        <Text size="5" color="gray">
           Comprehensive tooling for modern development workflows
-        </p>
-      </div>
+        </Text>
+      </Box>
 
-      <div className="space-y-12">
+      <Flex direction="column" gap="9">
         {tools.map((section) => (
-          <div key={section.category}>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          <Box key={section.category}>
+            <Heading size="7" mb="8" align="center">
               {section.category}
-            </h2>
+            </Heading>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Flex gap="6" direction={{ initial: 'column', lg: 'row' }}>
               {section.items.map((tool) => (
-                <div
+                <Card
                   key={tool.name}
-                  className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 cursor-pointer transition-all duration-300 ease-in-out transform ${
-                    hoveredCard === tool.name 
-                      ? 'scale-105 shadow-2xl ring-2 ring-blue-500 dark:ring-blue-400' 
-                      : 'hover:shadow-xl'
-                  }`}
+                  size="3"
+                  style={{
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease-in-out',
+                    transform: hoveredCard === tool.name ? 'scale(1.02)' : 'scale(1)',
+                    flex: 1
+                  }}
                   onMouseEnter={() => setHoveredCard(tool.name)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <Flex justify="between" align="start" mb="4">
+                    <Heading size="6">
                       {tool.name}
-                    </h3>
+                    </Heading>
                     <a
                       href={tool.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                       onClick={(e) => e.stopPropagation()}
+                      style={{ color: 'var(--accent-9)' }}
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
+                      <ExternalLinkIcon />
                     </a>
-                  </div>
+                  </Flex>
                   
-                  <div className={`transition-all duration-300 ease-in-out ${
-                    hoveredCard === tool.name ? 'min-h-[200px]' : 'min-h-[120px]'
-                  }`}>
-                    <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                  <Box
+                    style={{
+                      transition: 'all 0.3s ease-in-out',
+                      minHeight: hoveredCard === tool.name ? '200px' : '120px'
+                    }}
+                  >
+                    <Text color="gray" mb="6" style={{ lineHeight: '1.6' }}>
                       {tool.description}
-                    </p>
+                    </Text>
                     
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                      hoveredCard === tool.name 
-                        ? 'max-h-40 opacity-100 mb-6' 
-                        : 'max-h-0 opacity-0'
-                    }`}>
-                      <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                    <Box
+                      style={{
+                        transition: 'all 0.3s ease-in-out',
+                        overflow: 'hidden',
+                        maxHeight: hoveredCard === tool.name ? '160px' : '0',
+                        opacity: hoveredCard === tool.name ? 1 : 0,
+                        marginBottom: hoveredCard === tool.name ? '24px' : '0'
+                      }}
+                    >
+                      <Box style={{ borderTop: '1px solid var(--gray-6)', paddingTop: '16px' }}>
+                        <Text color="gray" size="2" style={{ lineHeight: '1.6' }}>
                           {tool.longDescription}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                        </Text>
+                      </Box>
+                    </Box>
+                  </Box>
                   
-                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                    hoveredCard === tool.name 
-                      ? 'max-h-96 opacity-100' 
-                      : 'max-h-0 opacity-0'
-                  }`}>
+                  <Box
+                    style={{
+                      transition: 'all 0.3s ease-in-out',
+                      overflow: 'hidden',
+                      maxHeight: hoveredCard === tool.name ? '384px' : '0',
+                      opacity: hoveredCard === tool.name ? 1 : 0
+                    }}
+                  >
                     {hoveredCard === tool.name && (
-                      <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      <Box style={{ borderTop: '1px solid var(--gray-6)', paddingTop: '16px' }}>
+                        <Heading size="4" mb="3">
                           Key Features
-                        </h4>
-                        <ul className="space-y-2">
+                        </Heading>
+                        <Flex direction="column" gap="2">
                           {tool.features.map((feature, index) => (
-                            <li key={index} className="flex items-start">
-                              <svg className="w-5 h-5 text-green-500 dark:text-green-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                              <span className="text-gray-600 dark:text-gray-400">{feature}</span>
-                            </li>
+                            <Flex key={index} align="start" gap="3">
+                              <CheckIcon style={{ color: 'var(--green-9)', marginTop: '2px', flexShrink: 0 }} />
+                              <Text color="gray" size="2">{feature}</Text>
+                            </Flex>
                           ))}
-                        </ul>
-                      </div>
+                        </Flex>
+                      </Box>
                     )}
-                  </div>
-                </div>
+                  </Box>
+                </Card>
               ))}
-            </div>
-          </div>
+            </Flex>
+          </Box>
         ))}
-      </div>
+      </Flex>
 
-      <div className="mt-12 text-center">
-        <p className="text-gray-600 dark:text-gray-400">
+      <Box className="mt-12 text-center">
+        <Text color="gray">
           Hover over each tool card to see detailed descriptions and explore the development infrastructure.
-        </p>
-      </div>
+        </Text>
+      </Box>
 
-      <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 rounded-lg p-8">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+      <Card size="3" className="mt-8" style={{ background: 'var(--gray-2)' }}>
+        <Heading size="7" mb="6" align="center">
           Development Workflow
-        </h2>
+        </Heading>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+        <Flex gap="6" direction={{ initial: 'column', md: 'row' }}>
+          <Flex direction="column" align="center" style={{ flex: 1 }}>
+            <Box 
+              style={{ 
+                background: 'var(--blue-9)', 
+                color: 'white', 
+                borderRadius: '50%', 
+                width: '48px', 
+                height: '48px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '16px'
+              }}
+            >
               1
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Code</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            </Box>
+            <Heading size="3" mb="2">Code</Heading>
+            <Text size="2" color="gray" align="center">
               Develop with TypeScript, React, and Tailwind CSS
-            </p>
-          </div>
+            </Text>
+          </Flex>
           
-          <div className="text-center">
-            <div className="bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+          <Flex direction="column" align="center" style={{ flex: 1 }}>
+            <Box 
+              style={{ 
+                background: 'var(--green-9)', 
+                color: 'white', 
+                borderRadius: '50%', 
+                width: '48px', 
+                height: '48px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '16px'
+              }}
+            >
               2
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Test</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            </Box>
+            <Heading size="3" mb="2">Test</Heading>
+            <Text size="2" color="gray" align="center">
               Run unit tests with Jest and E2E tests with Playwright
-            </p>
-          </div>
+            </Text>
+          </Flex>
           
-          <div className="text-center">
-            <div className="bg-yellow-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+          <Flex direction="column" align="center" style={{ flex: 1 }}>
+            <Box 
+              style={{ 
+                background: 'var(--yellow-9)', 
+                color: 'white', 
+                borderRadius: '50%', 
+                width: '48px', 
+                height: '48px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '16px'
+              }}
+            >
               3
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Build</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            </Box>
+            <Heading size="3" mb="2">Build</Heading>
+            <Text size="2" color="gray" align="center">
               Compile and optimize with Bun and Next.js
-            </p>
-          </div>
+            </Text>
+          </Flex>
           
-          <div className="text-center">
-            <div className="bg-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+          <Flex direction="column" align="center" style={{ flex: 1 }}>
+            <Box 
+              style={{ 
+                background: 'var(--purple-9)', 
+                color: 'white', 
+                borderRadius: '50%', 
+                width: '48px', 
+                height: '48px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '16px'
+              }}
+            >
               4
-            </div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Deploy</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            </Box>
+            <Heading size="3" mb="2">Deploy</Heading>
+            <Text size="2" color="gray" align="center">
               Automatic deployment to GitHub Pages via Actions
-            </p>
-          </div>
-        </div>
-      </div>
+            </Text>
+          </Flex>
+        </Flex>
+      </Card>
 
-      <div className="mt-12 text-center">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-            Integration Test Example
-          </h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Our Playwright integration test demonstrates the complete user flow:
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 text-sm">
-            <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full">
-              Open Index Page
-            </span>
-            <span className="text-gray-400">→</span>
-            <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full">
-              Navigate to Libraries
-            </span>
-            <span className="text-gray-400">→</span>
-            <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full">
-              Hover over Next.js
-            </span>
-            <span className="text-gray-400">→</span>
-            <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full">
-              Verify Hover Text
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Card size="3" className="mt-12">
+        <Heading size="5" mb="4" align="center">
+          Integration Test Example
+        </Heading>
+        <Text color="gray" mb="4" align="center">
+          Our Playwright integration test demonstrates the complete user flow:
+        </Text>
+        <Flex wrap="wrap" justify="center" gap="2" align="center">
+          <Badge color="blue">Open Index Page</Badge>
+          <Text color="gray">→</Text>
+          <Badge color="green">Navigate to Libraries</Badge>
+          <Text color="gray">→</Text>
+          <Badge color="yellow">Hover over Next.js</Badge>
+          <Text color="gray">→</Text>
+          <Badge color="purple">Verify Hover Text</Badge>
+        </Flex>
+      </Card>
+    </Container>
   )
 }
