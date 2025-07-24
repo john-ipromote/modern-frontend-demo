@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="min-h-screen">
-      <body className="antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+      <body className="antialiased min-h-screen">
         <ThemeProvider>
           <Navigation />
           <main className="container mx-auto px-4 py-8">

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { Theme as RadixTheme } from '@radix-ui/themes'
 
 type Theme = 'light' | 'dark'
 
@@ -21,19 +22,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const initialTheme = savedTheme || systemTheme
     
     setTheme(initialTheme)
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark')
   }, [])
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     localStorage.setItem('theme', newTheme)
-    document.documentElement.classList.toggle('dark', newTheme === 'dark')
   }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <RadixTheme 
+        appearance={theme}
+        accentColor="blue"
+        grayColor="gray"
+        panelBackground="solid"
+        scaling="100%"
+        radius="medium"
+      >
+        {children}
+      </RadixTheme>
     </ThemeContext.Provider>
   )
 }

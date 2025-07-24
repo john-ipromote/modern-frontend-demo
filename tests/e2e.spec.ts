@@ -10,7 +10,7 @@ test.describe('Modern Frontend Demo', () => {
     await expect(page.getByRole('heading', { name: 'Modern Frontend Demo' })).toBeVisible()
     
     // Step 2: Navigate to the Libraries page
-    await page.getByRole('link', { name: 'Libraries', exact: true }).click()
+    await page.getByRole('link', { name: 'Libraries', exact: true }).first().click()
     
     // Verify we're on the libraries page
     await expect(page.getByRole('heading', { name: 'Libraries & Technologies' })).toBeVisible()
@@ -30,35 +30,35 @@ test.describe('Modern Frontend Demo', () => {
   test('should toggle dark mode', async ({ page }) => {
     await page.goto('/')
     
-    // Verify initial light mode state
-    await expect(page.locator('html')).not.toHaveClass(/dark/)
+    // Verify initial light mode state (check for light theme in Radix)
+    await expect(page.locator('.radix-themes.light')).toBeVisible()
     
     // Click the dark mode toggle
     await page.getByRole('button', { name: 'Toggle dark mode' }).click()
     
-    // Verify dark mode is applied (check for dark class on html element)
-    await expect(page.locator('html')).toHaveClass(/dark/)
+    // Verify dark mode is applied (check for dark theme in Radix)
+    await expect(page.locator('.radix-themes.dark')).toBeVisible()
     
     // Toggle back to light mode
     await page.getByRole('button', { name: 'Toggle dark mode' }).click()
     
     // Verify we're back to light mode
-    await expect(page.locator('html')).not.toHaveClass(/dark/)
+    await expect(page.locator('.radix-themes.light')).toBeVisible()
   })
 
   test('should have working navigation', async ({ page }) => {
     await page.goto('/')
     
     // Test navigation to Libraries page
-    await page.getByRole('link', { name: 'Libraries', exact: true }).click()
+    await page.getByRole('link', { name: 'Libraries', exact: true }).first().click()
     await expect(page).toHaveURL('/libraries/')
     
     // Test navigation to Build & Test page
-    await page.getByRole('link', { name: 'Build & Test' }).click()
+    await page.getByRole('link', { name: 'Build & Test' }).first().click()
     await expect(page).toHaveURL('/build-test/')
     
     // Test navigation back to Home
-    await page.getByRole('link', { name: 'Home' }).click()
+    await page.getByRole('link', { name: 'Home' }).first().click()
     await expect(page).toHaveURL('/')
   })
 
@@ -126,7 +126,7 @@ test.describe('Modern Frontend Demo', () => {
     await expect(page.getByRole('heading', { name: 'React' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'TypeScript' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Tailwind CSS' })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Relix UI' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Radix Themes' })).toBeVisible()
     
     // Verify external links are present
     const nextjsLink = page.locator('div').filter({ hasText: /^Next\.js$/ }).getByRole('link')
