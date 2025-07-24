@@ -48,15 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: write
     
     steps:
     - uses: actions/checkout@v4
@@ -72,19 +65,11 @@ jobs:
     - name: Build application
       run: bun run build
     
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      with:
-        static_site_generator: next
-    
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./out
-    
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./out
 
   deploy-feature:
     runs-on: ubuntu-latest
@@ -111,9 +96,13 @@ jobs:
       shell: bash
       run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
     
+    - name: Convert branch name for URL
+      shell: bash
+      run: echo "BRANCH_NAME_URL=${BRANCH_NAME//\//-}" >> $GITHUB_ENV
+    
     - name: Build application with feature branch basePath
       env:
-        NEXT_PUBLIC_BASE_PATH: /modern-frontend-demo/${{ env.BRANCH_NAME }}
+        NEXT_PUBLIC_BASE_PATH: /modern-frontend-demo/${{ env.BRANCH_NAME_URL }}
       run: bun run build
     
     - name: Deploy to GitHub Pages (feature branch)
@@ -121,7 +110,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./out
-        destination_dir: ${{ env.BRANCH_NAME }}
+        destination_dir: ${{ env.BRANCH_NAME_URL }}
         keep_files: true
 
   cleanup-feature:
@@ -144,17 +133,21 @@ jobs:
       shell: bash
       run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
     
+    - name: Convert branch name for URL
+      shell: bash
+      run: echo "BRANCH_NAME_URL=${BRANCH_NAME//\//-}" >> $GITHUB_ENV
+    
     - name: Remove feature branch deployment
       shell: bash
       run: |
-        if [ -d "${{ env.BRANCH_NAME }}" ]; then
-          echo "Removing deployment for branch: ${{ env.BRANCH_NAME }}"
-          rm -rf "${{ env.BRANCH_NAME }}"
+        if [ -d "${{ env.BRANCH_NAME_URL }}" ]; then
+          echo "Removing deployment for branch: ${{ env.BRANCH_NAME }} (directory: ${{ env.BRANCH_NAME_URL }})"
+          rm -rf "${{ env.BRANCH_NAME_URL }}"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
           git commit -m "Remove deployment for ${{ env.BRANCH_NAME }}" || echo "Nothing to commit"
           git push origin gh-pages
         else
-          echo "No deployment found for branch: ${{ env.BRANCH_NAME }}"
+          echo "No deployment found for branch: ${{ env.BRANCH_NAME }} (directory: ${{ env.BRANCH_NAME_URL }})"
         fi
