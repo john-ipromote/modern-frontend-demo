@@ -36,7 +36,7 @@ The project now supports automatic deployments of `copilot/*` branches to GitHub
 - **Main branch**: `https://john-ipromote.github.io/modern-frontend-demo/`
 - **Feature branches**: `https://john-ipromote.github.io/modern-frontend-demo/{branch-name}/`
 
-Example: `copilot/fix-13` branch → `https://john-ipromote.github.io/modern-frontend-demo/copilot/fix-13/`
+Example: `copilot/fix-13` branch → `https://john-ipromote.github.io/modern-frontend-demo/copilot-fix-13/`
 
 ## How It Works
 
@@ -87,7 +87,7 @@ All functionality has been verified:
 To deploy a feature branch:
 1. Create a branch with `copilot/` prefix (e.g., `copilot/new-feature`)
 2. Push commits to the branch
-3. Deployment will be available at `https://john-ipromote.github.io/modern-frontend-demo/copilot/new-feature/`
+3. Deployment will be available at `https://john-ipromote.github.io/modern-frontend-demo/copilot-new-feature/`
 
 To clean up a feature deployment:
 1. Open a pull request from your `copilot/*` branch to `main`
