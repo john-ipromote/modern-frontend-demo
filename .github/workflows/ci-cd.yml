@@ -10,8 +10,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # Only run tests on main branch pushes
-    if: github.ref == 'refs/heads/main'
+    # Only run tests on main branch pushes (not on PR closed events)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
     - uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
   deploy-main:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     permissions:
       contents: write
@@ -74,7 +74,7 @@ jobs:
   deploy-feature:
     runs-on: ubuntu-latest
     # Only run on copilot/* branch pushes
-    if: startsWith(github.ref, 'refs/heads/copilot/')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/copilot/')
     
     permissions:
       pages: write
